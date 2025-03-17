@@ -34,7 +34,7 @@ module Annealing
     
     private
 
-    # True if cooled_metal.energy is lower than current energy. Otherwise, let
+    # True if cooled_metal.energy is lower than current energy, otherwise, let
     # probability determine if we should accept a higher value over a lower
     # value
     def prefer?(cooled_metal)
