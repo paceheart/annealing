@@ -31,7 +31,7 @@ module Annealing
     def lower_energy?(cooled_metal)
       cooled_metal.energy < energy
     end
-    
+
     private
 
     # True if cooled_metal.energy is lower than current energy, otherwise let
