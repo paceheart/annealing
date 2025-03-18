@@ -13,19 +13,22 @@ module Annealing
       with_runtime_config(config_hash) do |runtime_config|
         initial_temperature = runtime_config.temperature
         current = Metal.new(initial_state, initial_temperature, runtime_config)
-        best = current
-        steps = 0
-        until termination_condition_met?(current, runtime_config)
-          steps += 1
-          current = reduce_temperature(current, steps, runtime_config)
-          # If the current state has lower energy than the previous best (lowest energy) state
-          # we've seen so far, the current state is the new best state.
-          if best.lower_energy?(current)
-            best = current
-          end
-        end
-        best
+        really_run(current, runtime_config)
       end
+    end
+
+    def really_run(current, runtime_config)
+      best = current
+      steps = 0
+      until termination_condition_met?(current, runtime_config)
+        steps += 1
+        current = reduce_temperature(current, steps, runtime_config)
+        # If the current state has lower energy than the previous best (lowest energy) state
+        # we've seen so far, the current state is the new best state.
+        best = current if best.lower_energy?(current)
+      end
+      # preserve the temperature
+      Metal.new(best.state, current.temperature, runtime_config)
     end
 
     private
