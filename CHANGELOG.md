@@ -1,4 +1,6 @@
-## [Unreleased]
+## [Unreleased] - 2025-03-20
+
+- Add return_best config option. When true, returns the best (lowest energy) state. When false, returns the final state (preserves old behavior).
 
 ## [0.4.0] - 2023-03-09
 

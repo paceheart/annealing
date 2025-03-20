@@ -14,7 +14,6 @@ module Annealing
       with_runtime_config(config_hash) do |runtime_config|
         initial_temperature = runtime_config.temperature
         current = Metal.new(initial_state, initial_temperature, runtime_config)
-        really_run(current, runtime_config)
         best = current
         steps = 0
         until termination_condition_met?(current, runtime_config)
@@ -24,12 +23,11 @@ module Annealing
           # we've seen so far, the current state is the new best state.
           best = current if best.lower_energy?(current)
         end
-        # preserve the temperature
-        Metal.new(best.state, current.temperature, runtime_config)
+        final_or_best(current, best, runtime_config)
       end
     end
     # rubocop:enable Metrics/MethodLength
-    
+
     private
 
     # Wrapper for public methods that may use a custom configuration
@@ -55,6 +53,15 @@ module Annealing
       config.termination_condition.call(metal.state,
                                         metal.energy,
                                         metal.temperature)
+    end
+
+    def final_or_best(final, best, config)
+      if config.return_best
+        # preserve the temperature
+        Metal.new(best.state, final.temperature, config)
+      else
+        final
+      end
     end
   end
 end
