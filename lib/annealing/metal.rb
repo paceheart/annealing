@@ -27,7 +27,6 @@ module Annealing
       end
     end
 
-    # True if cooled_metal.energy is lower than current energy.
     def lower_energy?(cooled_metal)
       cooled_metal.energy < energy
     end
@@ -38,7 +37,7 @@ module Annealing
     # probability determine if we should accept a higher value over a lower
     # value
     def prefer?(cooled_metal)
-      lower_energy?(cooled_metal) or prefer_despite_higher_energy?(cooled_metal)
+      lower_energy?(cooled_metal) || prefer_despite_higher_energy?(cooled_metal)
     end
 
     def prefer_despite_higher_energy?(cooled_metal)

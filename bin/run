@@ -57,7 +57,7 @@ solution.state.each_cons(2).with_index do |(location1, location2), index|
 end
 puts "-------\nEnergy: #{solution.energy}"
 
-unless solution.energy <= initial_energy
+if solution.energy > initial_energy
   raise "Annealing failed: solution energy #{solution.energy}\
  ought to be less than or equal to than initial energy #{initial_energy}"
 end
